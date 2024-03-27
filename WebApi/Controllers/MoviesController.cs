@@ -18,7 +18,9 @@ namespace WebApi.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_repository.Get());
+            //(includeProperties: new[] { "Genres" }).ToList()
+
+            return Ok(_repository.Get(includeProperties: new[] { "Genres", "Genre" }));
         }
 
         [HttpGet("{id}")]
