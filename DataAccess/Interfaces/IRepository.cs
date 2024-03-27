@@ -8,15 +8,15 @@ namespace DataAccess.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
     {
-        IEnumerable<TEntity> Get(
-               Expression<Func<TEntity, bool>> filter = null,
-               Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-               params string[] includeProperties);
-        TEntity GetByID(object id);
-        void Insert(TEntity entity);
-        void Delete(object id);
-        void Delete(TEntity entityToDelete);
-        void Update(TEntity entityToUpdate);
-        void Save();
+        Task<IEnumerable<TEntity>> GetAsync(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            params string[] includeProperties);
+        Task<TEntity> GetByIDAsync(object id);
+        Task InsertAsync(TEntity entity);
+        Task DeleteAsync(object id);
+        Task DeleteAsync(TEntity entityToDelete);
+        Task UpdateAsync(TEntity entityToUpdate);
+        Task SaveAsync();
     }
 }

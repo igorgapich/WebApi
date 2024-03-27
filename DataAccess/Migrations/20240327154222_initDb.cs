@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,15 +8,11 @@
 namespace DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddEntityGenreAndMovieGenre : Migration
+    public partial class initDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Genre",
-                table: "Movies");
-
             migrationBuilder.CreateTable(
                 name: "Genres",
                 columns: table => new
@@ -27,6 +24,22 @@ namespace DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genres", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Movies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(180)", maxLength: 180, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1024)", maxLength: 1024, nullable: false),
+                    Year = table.Column<int>(type: "int", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Movies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,6 +81,19 @@ namespace DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Movies",
+                columns: new[] { "Id", "Description", "Duration", "Title", "Year" },
+                values: new object[,]
+                {
+                    { 1, "Dune is a 2021 American epic science fiction film directed by Denis Villeneuve, who co-wrote the screenplay with Jon Spaihts and Eric Roth", new TimeSpan(0, 2, 35, 0, 0), "Dune", 2021 },
+                    { 2, "John, an ex-CIA officer, is entrusted with the responsibility of safeguarding an entrepreneur's daughter. When the girl gets kidnapped, John vows to seek revenge.", new TimeSpan(0, 2, 26, 0, 0), "Main on Fire", 2004 },
+                    { 3, "Commodus takes over power and demotes Maximus, one of the preferred generals of his father, Emperor Marcus Aurelius. As a result, Maximus is relegated to fighting till death as a gladiator.", new TimeSpan(0, 2, 35, 0, 0), "Gladiator", 2000 },
+                    { 4, "When a group of firefighters from California ignores a warning by Superintendent Eric Marsh about a wildfire, he decides to get his crew certified as wildfire hotshots.", new TimeSpan(0, 2, 13, 0, 0), "Only the Brave", 2017 },
+                    { 5, "Baker Dill is a fishing boat captain who leads tours off of the tranquil enclave of Plymouth Island. His peaceful life is soon shattered when his ex-wife Karen tracks him down. Desperate for help, Karen begs Baker to save her -- and their young son -- from her abusive husband. She wants him to take the brute out for a fishing excursion -- then throw him overboard to the sharks. Thrust back into a life that he wanted to forget, Baker now finds himself struggling to choose between right and wrong.", new TimeSpan(0, 1, 46, 0, 0), "Serenity", 2019 },
+                    { 6, "An unmanned, half-mile-long freight train hurtles towards a town at breakneck speed. An engineer and a young conductor, who happen to be on the same route, must race against time to try and stop it.", new TimeSpan(0, 1, 38, 0, 0), "Unstoppable", 2010 }
+                });
+
+            migrationBuilder.InsertData(
                 table: "MovieGenres",
                 columns: new[] { "GenreId", "MovieId" },
                 values: new object[,]
@@ -104,54 +130,8 @@ namespace DataAccess.Migrations
             migrationBuilder.DropTable(
                 name: "Genres");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Genre",
-                table: "Movies",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.UpdateData(
-                table: "Movies",
-                keyColumn: "Id",
-                keyValue: 1,
-                column: "Genre",
-                value: "Fantasy");
-
-            migrationBuilder.UpdateData(
-                table: "Movies",
-                keyColumn: "Id",
-                keyValue: 2,
-                column: "Genre",
-                value: "Drama/Action/Triller");
-
-            migrationBuilder.UpdateData(
-                table: "Movies",
-                keyColumn: "Id",
-                keyValue: 3,
-                column: "Genre",
-                value: "History/Action/Drama");
-
-            migrationBuilder.UpdateData(
-                table: "Movies",
-                keyColumn: "Id",
-                keyValue: 4,
-                column: "Genre",
-                value: "Drama/Triller");
-
-            migrationBuilder.UpdateData(
-                table: "Movies",
-                keyColumn: "Id",
-                keyValue: 5,
-                column: "Genre",
-                value: "Drama/Triller");
-
-            migrationBuilder.UpdateData(
-                table: "Movies",
-                keyColumn: "Id",
-                keyValue: 6,
-                column: "Genre",
-                value: "Action/Drama");
+            migrationBuilder.DropTable(
+                name: "Movies");
         }
     }
 }

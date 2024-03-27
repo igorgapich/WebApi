@@ -17,7 +17,9 @@ namespace DataAccess.EntitiesConfiguration
                 .IsRequired();
 
             // Set many to many relation
-            builder.HasMany(x => x.Movies).WithOne(x => x.Genre).HasForeignKey(x => x.GenreId);
+            builder.HasMany(x => x.Movies)
+                .WithOne(x => x.Genre)
+                .HasForeignKey(x => x.GenreId);
         }
     }
 }

@@ -8,32 +8,33 @@ namespace DataAccess
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        internal CinemaDbContext context;
+        internal CinemaDbContext _context;
         internal DbSet<TEntity> dbSet;
-
         public Repository(CinemaDbContext context)
         {
-            this.context = context;
+            _context = context;
             this.dbSet = context.Set<TEntity>();
         }
-
-        public virtual IEnumerable<TEntity> Get(
+        public async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             params string[] includeProperties)
         {
             IQueryable<TEntity> query = dbSet;
+            await Task.Run
+                (
+                    () =>
+                    {
+                        if (filter != null)
+                        {
+                            query = query.Where(filter);
+                        }
 
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Include(includeProperty);
-            }
-
+                        foreach (var includeProperty in includeProperties)
+                        {
+                            query = query.Include(includeProperty);
+                        }
+                    });
             if (orderBy != null)
             {
                 return orderBy(query).ToList();
@@ -43,41 +44,45 @@ namespace DataAccess
                 return query.ToList();
             }
         }
-
-        public virtual TEntity GetByID(object id)
+        public async Task<TEntity> GetByIDAsync(object id)
         {
-            return dbSet.Find(id);
+            return await dbSet.FindAsync(id);
         }
-
-        public virtual void Insert(TEntity entity)
+        public async Task InsertAsync(TEntity entity)
         {
-            dbSet.Add(entity);
+            await dbSet.AddAsync(entity);
         }
-
-        public virtual void Delete(object id)
+        public async Task DeleteAsync(object id)
         {
-            TEntity entityToDelete = dbSet.Find(id);
-            Delete(entityToDelete);
+            TEntity entityToDelete = await dbSet.FindAsync(id);
+            await DeleteAsync(entityToDelete);
         }
-
-        public virtual void Delete(TEntity entityToDelete)
+        public async Task DeleteAsync(TEntity entityToDelete)
         {
-            if (context.Entry(entityToDelete).State == EntityState.Detached)
-            {
-                dbSet.Attach(entityToDelete);
-            }
-            dbSet.Remove(entityToDelete);
+            await Task.Run
+                (
+                    () =>
+                    {
+                        if (_context.Entry(entityToDelete).State == EntityState.Detached)
+                        {
+                            dbSet.Attach(entityToDelete);
+                        }
+                        dbSet.Remove(entityToDelete);
+                    });
         }
-
-        public virtual void Update(TEntity entityToUpdate)
+        public async Task UpdateAsync(TEntity entityToUpdate)
         {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
+            await Task.Run
+                (
+                () =>
+                {
+                    dbSet.Attach(entityToUpdate);
+                    _context.Entry(entityToUpdate).State = EntityState.Modified;
+                });
         }
-
-        public virtual void Save()
+        public async Task SaveAsync()
         {
-            context.SaveChanges();
-        }      
+            await _context.SaveChangesAsync();
+        }
     }
 }

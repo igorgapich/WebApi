@@ -16,40 +16,40 @@ namespace WebApi.Controllers
             _repository = repository;
         }
         [HttpGet]
-        public IActionResult Get()
+        public async Task <IActionResult> Get()
         {
             //(includeProperties: new[] { "Genres" }).ToList()
 
-            return Ok(_repository.Get(includeProperties: new[] { "Genres", "Genre" }));
+            return Ok(await _repository.GetAsync(includeProperties: new[] { "Genres" }));
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public async Task <IActionResult> Get(int id)
         {
-            return Ok(_repository.GetByID(id));
+            return Ok(await _repository.GetByIDAsync(id));
         }
 
         [HttpPost("Create")]
-        public IActionResult Create(Movie movie)
+        public async Task<IActionResult> Create(Movie movie)
         {
-            _repository.Insert(movie);
-            _repository.Save();
+            await _repository.InsertAsync(movie);
+            await _repository.SaveAsync();
             return Ok();
         }
 
         [HttpPut("Edit")]
-        public IActionResult Edit(Movie movie)
+        public async Task<IActionResult> Edit(Movie movie)
         {
-            _repository.Update(movie);
-            _repository.Save();
+            await _repository.GetAsync();
+            await _repository.GetAsync();
             return Ok();
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public async Task <IActionResult> Delete(int id)
         {
-            _repository.Delete(id);
-            _repository.Save();
+            await _repository.GetByIDAsync(id);
+            await _repository.SaveAsync();
             return Ok();
         }
     }

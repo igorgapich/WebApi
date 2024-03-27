@@ -168,7 +168,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("MovieGenrs");
+                    b.ToTable("MovieGenres");
 
                     b.HasData(
                         new

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(CinemaDbContext))]
-    [Migration("20240327125931_AddEntityGenreAndMovieGenre")]
-    partial class AddEntityGenreAndMovieGenre
+    [Migration("20240327154222_initDb")]
+    partial class initDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -171,7 +171,7 @@ namespace DataAccess.Migrations
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("MovieGenrs");
+                    b.ToTable("MovieGenres");
 
                     b.HasData(
                         new
