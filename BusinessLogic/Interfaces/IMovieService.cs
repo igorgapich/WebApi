@@ -10,6 +10,7 @@ namespace BusinessLogic.Interfaces
     public interface IMovieService
     {
         Task<IEnumerable<Movie>> GetAllAsync();
+        Task<IEnumerable<Genre>> GetGenresAsync();
         Task<Movie>? GetByIdAsync(int id);
         Task CreateAsync(Movie movie);
         Task EditAsync(Movie movie);

@@ -13,9 +13,12 @@ namespace BusinessLogic.Services
     public class MovieService : IMovieService
     {
         private readonly IRepository<Movie> _repoMovie;
-        public MovieService(IRepository<Movie> repoMovie)
+        private readonly IRepository<Genre> _repoGenre;
+
+        public MovieService(IRepository<Movie> repoMovie, IRepository<Genre> repoGenre)
         {
             _repoMovie = repoMovie;
+            _repoGenre = repoGenre;
         }
 
         public async Task CreateAsync(Movie movie)
@@ -48,6 +51,11 @@ namespace BusinessLogic.Services
         {
             await _repoMovie.UpdateAsync(movie);
             await _repoMovie.SaveAsync();
+        }
+
+        public async Task<IEnumerable<Genre>> GetGenresAsync()
+        {
+            return await _repoGenre.GetAsync();
         }
     }
 }

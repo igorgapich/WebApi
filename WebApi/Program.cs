@@ -3,6 +3,8 @@ using BusinessLogic.Services;
 using DataAccess;
 using DataAccess.Data;
 using DataAccess.Interfaces;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
@@ -12,14 +14,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<CinemaDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("CinemaCS")));
+builder.Services.AddDbContext<CinemaDbContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("CinemaCS"));
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
 
 builder.Services.AddControllers()
     .AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
