@@ -4,23 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataAccess.EntitiesConfiguration
 {
-    public class MovieConfiguration : IEntityTypeConfiguration<Movie>
+    public class GenreConfiguration : IEntityTypeConfiguration<Genre>
     {
-        public void Configure(EntityTypeBuilder<Movie> builder)
+        public void Configure(EntityTypeBuilder<Genre> builder)
         {
             // Set Primary Key
             builder.HasKey(x => x.Id);
 
             // Set property configuration
-            builder.Property(x => x.Title)
+            builder.Property(x => x.Name)
                 .HasMaxLength(180)
                 .IsRequired();
 
-            builder.Property(x => x.Description)
-                .HasMaxLength(1024);
-
             // Set many to many relation
-            builder.HasMany(x => x.Genres).WithOne(x => x.Movie).HasForeignKey(x => x.MovieId);
+            builder.HasMany(x => x.Movies).WithOne(x => x.Genre).HasForeignKey(x => x.GenreId);
         }
     }
 }
