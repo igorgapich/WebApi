@@ -1,3 +1,5 @@
+using BusinessLogic.Interfaces;
+using BusinessLogic.Services;
 using DataAccess;
 using DataAccess.Data;
 using DataAccess.Interfaces;
@@ -20,6 +22,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+builder.Services.AddScoped<IMovieService, MovieService>();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.MapType<TimeSpan>(() => new OpenApiSchema
@@ -28,6 +33,7 @@ builder.Services.AddSwaggerGen(options =>
         Example = new OpenApiString("00:00:00")
     });
 });
+
 
 var app = builder.Build();
 
