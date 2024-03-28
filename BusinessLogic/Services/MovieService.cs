@@ -1,4 +1,7 @@
-﻿using BusinessLogic.Interfaces;
+﻿using AutoMapper;
+using BusinessLogic.DTOs;
+using BusinessLogic.Interfaces;
+using BusinessLogic.Mappers;
 using DataAccess;
 using DataAccess.Entities;
 using DataAccess.Interfaces;
@@ -14,16 +17,20 @@ namespace BusinessLogic.Services
     {
         private readonly IRepository<Movie> _repoMovie;
         private readonly IRepository<Genre> _repoGenre;
+        private readonly IMapper _mapper; 
 
-        public MovieService(IRepository<Movie> repoMovie, IRepository<Genre> repoGenre)
+        public MovieService(IRepository<Movie> repoMovie,
+                            IRepository<Genre> repoGenre,
+                            IMapper mapper)
         {
             _repoMovie = repoMovie;
             _repoGenre = repoGenre;
+            _mapper = mapper;
         }
 
-        public async Task CreateAsync(Movie movie)
+        public async Task CreateAsync(MovieDto movieDto)
         {
-            await _repoMovie.InsertAsync(movie);
+            await _repoMovie.InsertAsync(_mapper.Map<Movie>(movieDto));
             await _repoMovie.SaveAsync();
         }
 
@@ -35,27 +42,28 @@ namespace BusinessLogic.Services
             await _repoMovie.SaveAsync();
         }
 
-        public async Task<IEnumerable<Movie>> GetAllAsync()
+        public async Task<IEnumerable<MovieDto>> GetAllAsync()
         {
-            return await _repoMovie.GetAsync(includeProperties: new[] { "Genres" });
+            var result = await _repoMovie.GetAsync(includeProperties: new[] { "Genres" });
+            return _mapper.Map<IEnumerable<MovieDto>>(result);
         }
 
-        public async Task<Movie>? GetByIdAsync(int id)
+        public async Task<MovieDto>? GetByIdAsync(int id)
         {
             if (_repoMovie.GetByIDAsync(id) == null)
                 throw new HttpRequestException("Not Found");
-            return await _repoMovie.GetByIDAsync(id);
+            return _mapper.Map<MovieDto>(await _repoMovie.GetByIDAsync(id));
         }
 
-        public async Task EditAsync(Movie movie)
+        public async Task EditAsync(MovieDto movieDto)
         {
-            await _repoMovie.UpdateAsync(movie);
+            await _repoMovie.UpdateAsync(_mapper.Map<Movie>(movieDto));
             await _repoMovie.SaveAsync();
         }
 
-        public async Task<IEnumerable<Genre>> GetGenresAsync()
+        public async Task<IEnumerable<GenreDto>> GetGenresAsync()
         {
-            return await _repoGenre.GetAsync();
+            return _mapper.Map<IEnumerable<GenreDto>>(await _repoGenre.GetAsync());
         }
     }
 }

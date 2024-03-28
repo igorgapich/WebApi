@@ -32,6 +32,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddScoped<IMovieService, MovieService>();
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.MapType<TimeSpan>(() => new OpenApiSchema

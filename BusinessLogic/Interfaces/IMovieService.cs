@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using BusinessLogic.DTOs;
+using DataAccess.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,11 @@ namespace BusinessLogic.Interfaces
 {
     public interface IMovieService
     {
-        Task<IEnumerable<Movie>> GetAllAsync();
-        Task<IEnumerable<Genre>> GetGenresAsync();
-        Task<Movie>? GetByIdAsync(int id);
-        Task CreateAsync(Movie movie);
-        Task EditAsync(Movie movie);
+        Task<IEnumerable<MovieDto>> GetAllAsync();
+        Task<IEnumerable<GenreDto>> GetGenresAsync();
+        Task<MovieDto>? GetByIdAsync(int id);
+        Task CreateAsync(MovieDto movie);
+        Task EditAsync(MovieDto movie);
         Task DeleteAsync(int id);
     }
 }
