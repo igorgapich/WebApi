@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Ardalis.Specification;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace DataAccess.Interfaces
 {
@@ -12,11 +10,13 @@ namespace DataAccess.Interfaces
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             params string[] includeProperties);
-        Task<TEntity> GetByIDAsync(object id);
+        Task<TEntity?> GetByIDAsync(object id);
         Task InsertAsync(TEntity entity);
         Task DeleteAsync(object id);
         Task DeleteAsync(TEntity entityToDelete);
         Task UpdateAsync(TEntity entityToUpdate);
+        Task <TEntity?> GetItemBySpec(ISpecification<TEntity> specification);
+        Task <IEnumerable<TEntity>> GetListBySpec(ISpecification<TEntity> specification);
         Task SaveAsync();
     }
 }

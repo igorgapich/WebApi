@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BusinessLogic.DTOs;
 using DataAccess.Entities;
+using Microsoft.Extensions.Options;
 
 namespace BusinessLogic.Mappers
 {
@@ -8,12 +9,12 @@ namespace BusinessLogic.Mappers
     {
         public AppProfile()
         {
-            CreateMap<Genre, GenreDto>()
-                .ReverseMap();
+            CreateMap<Genre, GenreDto>().ReverseMap();
             // Map Movie into MovieDto
             CreateMap<Movie, MovieDto>()
-                .ForMember(movieDto => movieDto.Genres, options => options.MapFrom(movie => movie.Genres.Select(item => item.Genre)));
-            CreateMap<Movie, MovieDto>();
-        }
+                .ForMember(movieDto => movieDto.Genres, options => options.MapFrom(movie => movie.Genres.Select(i => i.Genre)));
+            CreateMap<MovieDto, Movie>();
+            CreateMap<CreateMovieDto, Movie>();
+        }                
     }
 }

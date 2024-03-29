@@ -4,6 +4,7 @@ using DataAccess.Entities;
 using DataAccess.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BusinessLogic.Mappers;
 
 namespace WebApi.Controllers
 {
@@ -26,13 +27,13 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task <IActionResult> Get(int id)
+        public async Task <IActionResult> Get([FromRoute]int id)
         {
             return Ok(await _moviesService.GetByIdAsync(id));
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create(MovieDto movie)
+        public async Task<IActionResult> Create(CreateMovieDto movie)
         {
             await _moviesService.CreateAsync(movie);
             return Ok();
