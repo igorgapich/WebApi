@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using Infrastructure;
 using Core;
+using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//Global handler Middleware
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseAuthorization();
 
