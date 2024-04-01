@@ -16,6 +16,7 @@ namespace Core
         public static void AddCustomService(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<IMovieService, MoviesService>();
+            serviceCollection.AddScoped<IAccountService, AccountService>();
 
         }
         public static void AddValidators(this IServiceCollection serviceCollection)

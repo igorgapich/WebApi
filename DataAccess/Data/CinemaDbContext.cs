@@ -1,10 +1,11 @@
 ﻿using Core.Entities;
 using Infrastructure.EntitiesConfiguration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class CinemaDbContext : DbContext
+    public class CinemaDbContext : IdentityDbContext
     {
         public CinemaDbContext(DbContextOptions<CinemaDbContext> options) : base(options)
         {
