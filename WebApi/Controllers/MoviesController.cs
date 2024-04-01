@@ -19,7 +19,7 @@ namespace WebApi.Controllers
             _moviesService = moviesService;
         }
         [HttpGet]
-        public async Task <IActionResult> Get()
+        public async Task<IActionResult> Get()
         {
             //(includeProperties: new[] { "Genres" }).ToList()
 
@@ -27,9 +27,16 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task <IActionResult> Get([FromRoute]int id)
+        public async Task<IActionResult> Get([FromRoute] int id)
         {
-            return Ok(await _moviesService.GetByIdAsync(id));
+            try
+            {
+                return Ok(await _moviesService.GetByIdAsync(id));
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost("Create")]
@@ -47,7 +54,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete]
-        public async Task <IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             await _moviesService.DeleteAsync(id);
             return Ok();

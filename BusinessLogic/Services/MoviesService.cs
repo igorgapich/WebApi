@@ -76,8 +76,7 @@ namespace Core.Services
             //if ((await _repoMovie.GetByIDAsync(id)) == null)
             var movie = await _repoMovie.GetItemBySpec(new MoviesSpec.ById(id));
             if (movie == null)
-                return null;
-            //throw new HttpRequestException("Not Found");
+                throw new HttpRequestException("Not Found");
             return _mapper.Map<MovieDto>(movie);
         }
 

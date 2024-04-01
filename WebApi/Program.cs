@@ -8,13 +8,13 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using Infrastructure;
+using Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<CinemaDbContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("CinemaCS"));
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-});
+string connection = builder.Configuration.GetConnectionString("CinemaCS") ?? throw new InvalidOperationException("Connection string 'ShopMVCConnection' not found.");
+
+builder.Services.AddDbContext(connection);
 
 // Add services to the container.
 
@@ -24,7 +24,8 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddRepository();
+
 builder.Services.AddSwaggerGen(options =>
 {
     options.MapType<TimeSpan>(() => new OpenApiSchema
@@ -34,13 +35,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddCustomService();
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-
-builder.Services.AddScoped<IMovieService, MoviesService>();
+builder.Services.AddValidators();
+builder.Services.AddAutoMapper();
 
 var app = builder.Build();
 
