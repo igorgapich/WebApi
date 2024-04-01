@@ -1,7 +1,7 @@
-﻿using DataAccess.Entities;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Data
+namespace Infrastructure.Data
 {
     public static class SeedData
     {

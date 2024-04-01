@@ -1,8 +1,8 @@
-﻿using DataAccess.Entities;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace DataAccess.EntitiesConfiguration
+namespace Infrastructure.EntitiesConfiguration
 {
     public class GenreConfiguration : IEntityTypeConfiguration<Genre>
     {

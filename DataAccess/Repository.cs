@@ -1,12 +1,12 @@
 ﻿using Ardalis.Specification;
 using Ardalis.Specification.EntityFrameworkCore;
-using DataAccess.Data;
-using DataAccess.Interfaces;
+using Core.Interfaces;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 
-namespace DataAccess
+namespace Infrastructure
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

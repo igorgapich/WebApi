@@ -1,6 +1,6 @@
 ﻿
 
-namespace DataAccess.Entities
+namespace Core.Entities
 {
     public class Movie
     {

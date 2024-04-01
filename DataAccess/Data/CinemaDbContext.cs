@@ -1,8 +1,8 @@
-﻿using DataAccess.Entities;
-using DataAccess.EntitiesConfiguration;
+﻿using Core.Entities;
+using Infrastructure.EntitiesConfiguration;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Data
+namespace Infrastructure.Data
 {
     public class CinemaDbContext : DbContext
     {

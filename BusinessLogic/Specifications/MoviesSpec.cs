@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
-using DataAccess.Entities;
+using Core.Entities;
 
-namespace BusinessLogic.Specifications
+namespace Core.Specifications
 {
     public static class MoviesSpec
     {

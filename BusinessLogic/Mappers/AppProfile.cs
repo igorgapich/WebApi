@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using BusinessLogic.DTOs;
-using DataAccess.Entities;
+using Core.DTOs;
+using Core.Entities;
 using Microsoft.Extensions.Options;
 
-namespace BusinessLogic.Mappers
+namespace Core.Mappers
 {
     public class AppProfile : Profile
     {

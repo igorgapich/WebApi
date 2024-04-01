@@ -1,14 +1,13 @@
-using BusinessLogic.Interfaces;
-using BusinessLogic.Services;
-using DataAccess;
-using DataAccess.Data;
-using DataAccess.Interfaces;
+using Core.Interfaces;
+using Core.Services;
+using Infrastructure.Data;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
+using Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
