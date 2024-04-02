@@ -31,8 +31,8 @@ namespace WebApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto user)
         {
-            await _accountService.Login(user);
-            return Ok();
+            var response = await _accountService.Login(user);
+            return Ok(response);
         }
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
